@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: logiq-config
+data:
+  ENVIRONMENT: production
+  LOG_LEVEL: INFO
+  BACKEND_CORS_ORIGINS: ""
+  KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+  ACCESS_TOKEN_EXPIRE_MINUTES: "15"
+  REFRESH_TOKEN_EXPIRE_DAYS: "14"

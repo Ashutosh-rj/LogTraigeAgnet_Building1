@@ -1,0 +1,66 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/backend
+    env:
+      KAFKA_ENABLED: "false"
+      ENVIRONMENT: development
+      BCRYPT_ROUNDS: "4"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install --upgrade pip
+      - run: pip install -e ".[dev]"
+      - run: ruff check .
+      - run: pytest
+
+  frontend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/frontend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: apps/frontend/package-lock.json
+      - run: npm ci
+      - run: npm run lint
+      - run: npm test
+      - run: npm run build
+
+  compose:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate compose config
+        run: docker compose config --quiet
+      - name: Boot stack and wait for health
+        run: |
+          cp .env.example .env
+          sed -i 's/change_me_min_32_chars/testpassword12345678901234567890/g' .env
+          docker compose up -d --wait --wait-timeout 120
+      - name: Smoke test backend
+        run: curl -fsS http://localhost:8080/health/live
+      - name: Smoke test frontend
+        run: curl -fsS http://localhost:3000
+      - name: Tear down
+        if: always()
+        run: docker compose down -v
+
