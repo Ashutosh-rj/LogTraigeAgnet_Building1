@@ -1,0 +1,77 @@
+version: '3.8'
+
+x-app-env: &app-env
+  ENVIRONMENT: production
+  POSTGRES_URI: postgresql+asyncpg://logiq:securepass@postgres:5432/logiq_db
+  REDIS_URI: redis://redis:6379/0
+  ELASTICSEARCH_URI: http://elasticsearch:9200
+  ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY}
+  JWT_SECRET: ${JWT_SECRET}
+
+services:
+  api:
+    build:
+      context: ../../apps/backend
+    command: ["api"]
+    ports:
+      - "8000:8000"
+    environment: *app-env
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  worker:
+    build:
+      context: ../../apps/backend
+    command: ["worker"]
+    environment: *app-env
+    depends_on:
+      - redis
+      - postgres
+
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: logiq
+      POSTGRES_PASSWORD: securepass
+      POSTGRES_DB: logiq_db
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U logiq"]
+      interval: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      retries: 5
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.12.0
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - ES_JAVA_OPTS=-Xms1g -Xmx1g
+    volumes:
+      - esdata:/usr/share/elasticsearch/data
+
+  prometheus:
+    image: prom/prometheus:v2.45.0
+    ports:
+      - "9090:9090"
+    volumes:
+      - ../observability/prometheus.yml:/etc/prometheus/prometheus.yml
+
+volumes:
+  pgdata:
+  esdata:

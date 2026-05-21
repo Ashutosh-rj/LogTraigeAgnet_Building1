@@ -1,0 +1,59 @@
+image:
+  backend: logiq-backend:1.0.0
+  frontend: logiq-frontend:1.0.0
+
+replicaCount:
+  backend: 2
+  frontend: 2
+
+ingress:
+  host: ""
+
+frontend:
+  apiBaseUrl: "https://api.example.com"
+  wsBaseUrl: "wss://api.example.com"
+
+# IMPORTANT: override these via --set or a values override file.
+# Never commit real secrets to version control.
+secrets:
+  jwtSecret: "change_me_min_32_chars_random_string"
+  postgresPassword: "change_me_min_32_chars"
+
+resources:
+  backend:
+    requests:
+      cpu: 250m
+      memory: 512Mi
+    limits:
+      cpu: "1"
+      memory: 1Gi
+  frontend:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
+
+autoscaling:
+  backend:
+    enabled: true
+    minReplicas: 2
+    maxReplicas: 10
+    targetCPUUtilizationPercentage: 70
+    targetMemoryUtilizationPercentage: 80
+  frontend:
+    enabled: true
+    minReplicas: 2
+    maxReplicas: 5
+    targetCPUUtilizationPercentage: 70
+    targetMemoryUtilizationPercentage: 80
+
+pdb:
+  backend:
+    enabled: true
+    minAvailable: 1
+  frontend:
+    enabled: true
+    minAvailable: 1
+

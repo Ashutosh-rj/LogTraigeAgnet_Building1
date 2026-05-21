@@ -1,0 +1,4 @@
+{
+  "incident_type": "oom_killed",
+  "expected_root_cause": "Container exceeded memory limit"
+}
