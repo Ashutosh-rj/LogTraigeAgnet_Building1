@@ -88,6 +88,10 @@ jobs:
   compose:
     runs-on: ubuntu-latest
 
+    env:
+      POSTGRES_PASSWORD: "testpassword12345678901234567890"
+      JWT_SECRET: "testpassword12345678901234567890"
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -97,8 +101,8 @@ jobs:
 
       - name: Boot stack
         run: |
-          cp .env.example .env
-          sed -i 's/change_me_min_32_chars/testpassword12345678901234567890/g' .env
+          echo "POSTGRES_PASSWORD=testpassword12345678901234567890" >> .env
+          echo "JWT_SECRET=testpassword12345678901234567890" >> .env
           docker compose up -d --wait --wait-timeout 120
 
       - name: Smoke test backend
