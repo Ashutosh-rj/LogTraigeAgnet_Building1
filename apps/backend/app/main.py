@@ -9,7 +9,6 @@ from app.api.router import api_router
 from app.core.config import get_settings
 from app.core.logging import configure_logging, get_logger
 from app.core.metrics import MetricsMiddleware, metrics_response
-<<<<<<< HEAD
 from app.core.middleware import (
     BodySizeLimitMiddleware,
     RateLimitMiddleware,
@@ -17,9 +16,6 @@ from app.core.middleware import (
     SearchSanitizationMiddleware,
     SecurityHeadersMiddleware,
 )
-=======
-from app.core.middleware import RateLimitMiddleware, RequestIdMiddleware, SecurityHeadersMiddleware
->>>>>>> ec9ba626b100ff3057dcc621c518b6d3104f2818
 from app.core.telemetry import configure_telemetry
 from app.db.models import validate_embedding_dimensions
 from app.db.session import get_engine
@@ -64,13 +60,9 @@ app.add_middleware(
     allow_headers=["Authorization", "Content-Type", "X-Request-ID"],
 )
 app.add_middleware(SecurityHeadersMiddleware)
-<<<<<<< HEAD
 app.add_middleware(SearchSanitizationMiddleware)
 app.add_middleware(RateLimitMiddleware)
 app.add_middleware(BodySizeLimitMiddleware)
-=======
-app.add_middleware(RateLimitMiddleware)
->>>>>>> ec9ba626b100ff3057dcc621c518b6d3104f2818
 app.add_middleware(MetricsMiddleware)
 app.add_middleware(RequestIdMiddleware)
 

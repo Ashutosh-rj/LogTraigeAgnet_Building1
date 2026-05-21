@@ -29,18 +29,9 @@ import structlog as _structlog
 _log = _structlog.get_logger()
 
 
-<<<<<<< HEAD
 import structlog as _structlog
 
 _log = _structlog.get_logger()
-=======
-# TODO: move counter to Redis for multi-process deployments.
-# The dict is capped at _LOGIN_FAIL_COUNTER_MAX_ENTRIES to prevent unbounded
-# memory growth in long-running single-process deployments.  When the cap is
-# reached the oldest entry is evicted (FIFO via dict insertion order, Python 3.7+).
-_LOGIN_FAIL_COUNTER_MAX_ENTRIES = 10_000
-_login_fail_counter: dict[str, int] = {}
->>>>>>> ec9ba626b100ff3057dcc621c518b6d3104f2818
 
 
 class AuthService:
@@ -93,7 +84,6 @@ class AuthService:
         return token_pair
 
     async def login(self, payload: LoginRequest, request: Request | None = None) -> TokenPair:
-<<<<<<< HEAD
         settings = get_settings()
         email = str(payload.email).lower()
         await rate_limiter.enforce(
@@ -118,31 +108,6 @@ class AuthService:
             raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="User is inactive")
         
         await rate_limiter.clear(lockout_key)
-=======
-        email = str(payload.email).lower()
-        await rate_limiter.enforce(
-            f"rl:login-account:{email}",
-            get_settings().login_account_rate_limit_requests,
-            get_settings().rate_limit_window_seconds,
-        )
-        user = await self.users.get_by_email(email)
-        if not user or not verify_password(payload.password, user.password_hash):
-            # Evict oldest entry if the counter dict has grown too large.
-            if len(_login_fail_counter) >= _LOGIN_FAIL_COUNTER_MAX_ENTRIES:
-                _login_fail_counter.pop(next(iter(_login_fail_counter)))
-            _login_fail_counter[email] = _login_fail_counter.get(email, 0) + 1
-            threshold = get_settings().login_fail_alert_threshold
-            if _login_fail_counter[email] >= threshold:
-                _log.error(
-                    "excessive_login_failures",
-                    email=email,
-                    count=_login_fail_counter[email],
-                )
-            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid credentials")
-        if not user.is_active:
-            raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="User is inactive")
-        _login_fail_counter.pop(email, None)  # reset on successful auth
->>>>>>> ec9ba626b100ff3057dcc621c518b6d3104f2818
         user.last_login_at = datetime.now(UTC)
         token_pair, _ = await self._issue_tokens(user, request)
         await self.audit.record(

@@ -4,10 +4,7 @@ from fastapi import APIRouter, Depends, Query, Request, Response
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.api.deps import ResponderUser, ViewerUser
-<<<<<<< HEAD
 from app.core.config import get_settings
-=======
->>>>>>> ec9ba626b100ff3057dcc621c518b6d3104f2818
 from app.db.session import get_session
 from app.repositories.logs import LogRepository, LOG_PAGE_DEFAULT
 from app.schemas.common import Page

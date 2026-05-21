@@ -4,7 +4,6 @@ import logging
 import sys
 
 import structlog
-<<<<<<< HEAD
 from opentelemetry import trace
 
 
@@ -18,8 +17,6 @@ def add_opentelemetry_spans(logger: logging.Logger, log_method: str, event_dict:
         event_dict["trace_id"] = f"{ctx.trace_id:032x}"
         event_dict["span_id"] = f"{ctx.span_id:016x}"
     return event_dict
-=======
->>>>>>> ec9ba626b100ff3057dcc621c518b6d3104f2818
 
 
 def configure_logging(level: str) -> None:
@@ -31,10 +28,7 @@ def configure_logging(level: str) -> None:
         processors=[
             structlog.contextvars.merge_contextvars,
             structlog.processors.add_log_level,
-<<<<<<< HEAD
             add_opentelemetry_spans,
-=======
->>>>>>> ec9ba626b100ff3057dcc621c518b6d3104f2818
             structlog.processors.TimeStamper(fmt="iso", utc=True),
             structlog.processors.JSONRenderer(),
         ],

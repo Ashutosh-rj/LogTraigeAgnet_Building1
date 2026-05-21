@@ -37,21 +37,14 @@
       "targets": [
         {
           "expr": "sum(rate(logiq_http_requests_total[5m])) by (path)",
-<<<<<<< HEAD
           "legendFormat": "{{path}}",
           "refId": "A"
-=======
-          "legendFormat": "{{path}}"
->>>>>>> ec9ba626b100ff3057dcc621c518b6d3104f2818
         }
       ],
       "title": "Request Rate",
       "type": "timeseries"
     },
-<<<<<<< HEAD
 
-=======
->>>>>>> ec9ba626b100ff3057dcc621c518b6d3104f2818
     {
       "datasource": {
         "type": "prometheus",
@@ -67,7 +60,6 @@
       "targets": [
         {
           "expr": "histogram_quantile(0.95, sum(rate(logiq_http_request_duration_seconds_bucket[5m])) by (le, path))",
-<<<<<<< HEAD
           "legendFormat": "{{path}}",
           "refId": "A"
         }
@@ -335,26 +327,10 @@
     "list": []
   },
 
-=======
-          "legendFormat": "{{path}}"
-        }
-      ],
-      "title": "P95 Latency",
-      "type": "timeseries"
-    }
-  ],
-  "refresh": "30s",
-  "schemaVersion": 39,
-  "tags": ["logiq"],
-  "templating": {
-    "list": []
-  },
->>>>>>> ec9ba626b100ff3057dcc621c518b6d3104f2818
   "time": {
     "from": "now-6h",
     "to": "now"
   },
-<<<<<<< HEAD
 
   "title": "LogIQ AI Observability Dashboard",
 
@@ -364,11 +340,3 @@
 
   "weekStart": ""
 }
-=======
-  "title": "LogIQ Overview",
-  "uid": "logiq-overview",
-  "version": 1,
-  "weekStart": ""
-}
-
->>>>>>> ec9ba626b100ff3057dcc621c518b6d3104f2818

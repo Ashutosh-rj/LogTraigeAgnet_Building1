@@ -1,15 +1,11 @@
 from __future__ import annotations
 
 from datetime import datetime
-<<<<<<< HEAD
 from typing import List, Literal
-=======
->>>>>>> ec9ba626b100ff3057dcc621c518b6d3104f2818
 
 from pydantic import BaseModel, ConfigDict, Field
 
 
-<<<<<<< HEAD
 class LogCitation(BaseModel):
     chunk_index: int
     log_line_exact: str = Field(..., description="EXACT substring from the log. Do not paraphrase.")
@@ -31,8 +27,6 @@ class TriageReportSchema(BaseModel):
     confidence: float = Field(ge=0.1, le=0.95)
 
 
-=======
->>>>>>> ec9ba626b100ff3057dcc621c518b6d3104f2818
 class TriageReportRead(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 

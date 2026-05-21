@@ -95,11 +95,7 @@ def create_access_token(subject: str, email: str, role: str) -> str:
     now = datetime.now(UTC)
     payload: dict[str, Any] = {
         # Coerce to str unconditionally: the ORM may return a UUID or int
-<<<<<<< HEAD
         # object instead of a str, which would produce a non-string
-=======
-        # object instead of a str, which would produce a non-string 
->>>>>>> ec9ba626b100ff3057dcc621c518b6d3104f2818
         # claim that later str() coercions in get_current_user would mangle.
         "sub": str(subject),
         "email": email,
@@ -109,28 +105,21 @@ def create_access_token(subject: str, email: str, role: str) -> str:
         "typ": "access",
         "jti": secrets.token_hex(16),
     }
-<<<<<<< HEAD
     # Always sign with the primary (current) secret
-=======
->>>>>>> ec9ba626b100ff3057dcc621c518b6d3104f2818
     return jwt.encode(payload, settings.effective_jwt_secret, algorithm="HS256")
 
 
 def decode_access_token(token: str) -> dict[str, Any]:
     """Decode and structurally validate an access token (sync — no blocklist check).
 
-<<<<<<< HEAD
     Supports JWT key rotation: tries primary secret first, then falls back to
     the secondary secret if configured.  This allows zero-downtime key rotation —
     existing tokens signed with the old key remain valid during the rotation window.
 
-=======
->>>>>>> ec9ba626b100ff3057dcc621c518b6d3104f2818
     Use ``decode_access_token_async`` in FastAPI dependency/route code so the
     Redis blocklist is consulted.  This sync variant exists for WebSocket auth
     and test helpers that run outside an async context.
     """
-<<<<<<< HEAD
     settings = get_settings()
     last_exc: Exception | None = None
 
@@ -147,15 +136,6 @@ def decode_access_token(token: str) -> dict[str, Any]:
     raise HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid token"
     ) from last_exc
-=======
-    try:
-        payload = jwt.decode(token, get_settings().effective_jwt_secret, algorithms=["HS256"])
-    except jwt.PyJWTError as exc:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid token") from exc
-    if payload.get("typ") != "access" or not payload.get("sub"):
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid token")
-    return payload
->>>>>>> ec9ba626b100ff3057dcc621c518b6d3104f2818
 
 
 async def decode_access_token_async(token: str) -> dict[str, Any]:
