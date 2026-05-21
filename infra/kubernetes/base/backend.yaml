@@ -75,6 +75,7 @@ spec:
               memory: 1Gi
           securityContext:
             allowPrivilegeEscalation: false
+<<<<<<< HEAD
             readOnlyRootFilesystem: true
             capabilities:
               drop: ["ALL"]
@@ -84,3 +85,7 @@ spec:
       volumes:
         - name: tmp
           emptyDir: {}
+=======
+            capabilities:
+              drop: ["ALL"]
+>>>>>>> ec9ba626b100ff3057dcc621c518b6d3104f2818

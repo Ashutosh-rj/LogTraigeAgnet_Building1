@@ -200,6 +200,7 @@ class IncidentService:
         self, incident_id: str, actor: User, request: Request | None = None
     ):
         incident = await self.get_or_404(incident_id)
+<<<<<<< HEAD
         
         from app.core.config import get_settings
         settings = get_settings()
@@ -210,6 +211,9 @@ class IncidentService:
             triage_engine = self.triage
             
         report, was_regenerated = await triage_engine.generate(incident)
+=======
+        report, was_regenerated = await self.triage.generate(incident)
+>>>>>>> ec9ba626b100ff3057dcc621c518b6d3104f2818
 
         if was_regenerated:
             _log.info("triage.regenerated", incident_id=incident_id, report_id=report.id)

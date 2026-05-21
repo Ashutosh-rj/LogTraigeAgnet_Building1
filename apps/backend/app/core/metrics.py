@@ -5,6 +5,7 @@ from collections.abc import Awaitable, Callable
 
 from fastapi import Request, Response
 from prometheus_client import Counter, Histogram, generate_latest
+<<<<<<< HEAD
 from prometheus_client.exposition import CONTENT_TYPE_LATEST
 from starlette.middleware.base import BaseHTTPMiddleware
 
@@ -24,6 +25,11 @@ schema_validation_failures_total = Counter("schema_validation_failures_total", "
 triage_pipeline_phase_duration = Histogram("triage_pipeline_phase_duration_seconds", "Duration of triage phase", ["phase"])
 from prometheus_client import Gauge
 active_triage_jobs = Gauge("active_triage_jobs", "Currently active triage jobs")
+=======
+from prometheus_client.openmetrics.exposition import CONTENT_TYPE_LATEST
+from starlette.middleware.base import BaseHTTPMiddleware
+
+>>>>>>> ec9ba626b100ff3057dcc621c518b6d3104f2818
 REQUEST_COUNT = Counter(
     "logiq_http_requests_total",
     "Total HTTP requests",

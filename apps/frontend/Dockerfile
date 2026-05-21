@@ -1,8 +1,12 @@
 FROM node:22-alpine AS deps
 WORKDIR /app
 COPY package*.json ./
+<<<<<<< HEAD
 # Increase npm network timeout to survive slow connections
 RUN npm ci --network-timeout=120000 --prefer-offline || npm ci --network-timeout=180000
+=======
+RUN npm ci
+>>>>>>> ec9ba626b100ff3057dcc621c518b6d3104f2818
 
 FROM node:22-alpine AS builder
 WORKDIR /app

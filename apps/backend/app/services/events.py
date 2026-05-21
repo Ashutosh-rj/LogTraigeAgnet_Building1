@@ -37,7 +37,11 @@ class EventPublisher:
 
     async def publish(self, topic: str, payload: dict[str, Any]) -> None:
         if self._producer is None:
+<<<<<<< HEAD
             logger.info("event_not_published_without_kafka", topic=topic, event_name=payload.get("event"))
+=======
+            logger.info("event_not_published_without_kafka", topic=topic, event=payload.get("event"))
+>>>>>>> ec9ba626b100ff3057dcc621c518b6d3104f2818
             return
         try:
             await self._producer.send_and_wait(
@@ -57,14 +61,22 @@ class EventPublisher:
                 logger.error(
                     "kafka_publish_error",
                     topic=topic,
+<<<<<<< HEAD
                     event_name=payload.get("event"),
+=======
+                    event=payload.get("event"),
+>>>>>>> ec9ba626b100ff3057dcc621c518b6d3104f2818
                     error=str(exc),
                 )
             else:
                 logger.warning(
                     "kafka_publish_error",
                     topic=topic,
+<<<<<<< HEAD
                     event_name=payload.get("event"),
+=======
+                    event=payload.get("event"),
+>>>>>>> ec9ba626b100ff3057dcc621c518b6d3104f2818
                     error=str(exc),
                 )
 

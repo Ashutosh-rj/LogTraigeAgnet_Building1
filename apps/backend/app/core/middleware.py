@@ -5,7 +5,10 @@ from collections.abc import Awaitable, Callable
 
 from fastapi import HTTPException
 from fastapi import Request, Response
+<<<<<<< HEAD
 from opentelemetry import trace
+=======
+>>>>>>> ec9ba626b100ff3057dcc621c518b6d3104f2818
 from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.responses import JSONResponse
 
@@ -19,12 +22,15 @@ class RequestIdMiddleware(BaseHTTPMiddleware):
     ) -> Response:
         request_id = request.headers.get("x-request-id", str(uuid.uuid4()))
         request.state.request_id = request_id
+<<<<<<< HEAD
         # Attach request_id and route to the active OTEL span for trace correlation
         span = trace.get_current_span()
         if span.is_recording():
             span.set_attribute("http.request_id", request_id)
             span.set_attribute("http.method", request.method)
             span.set_attribute("http.route", str(request.url.path))
+=======
+>>>>>>> ec9ba626b100ff3057dcc621c518b6d3104f2818
         response = await call_next(request)
         response.headers["x-request-id"] = request_id
         return response
@@ -99,6 +105,7 @@ class RateLimitMiddleware(BaseHTTPMiddleware):
         except HTTPException:
             return JSONResponse({"detail": "Rate limit exceeded"}, status_code=429)
         return await call_next(request)
+<<<<<<< HEAD
 
 
 # ---------------------------------------------------------------------------
@@ -168,3 +175,5 @@ class SearchSanitizationMiddleware(BaseHTTPMiddleware):
                                 status_code=400,
                             )
         return await call_next(request)
+=======
+>>>>>>> ec9ba626b100ff3057dcc621c518b6d3104f2818

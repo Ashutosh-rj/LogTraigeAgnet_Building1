@@ -2,9 +2,7 @@ name: CI
 
 on:
   push:
-    branches:
-      - main
-
+    branches: [main]
   pull_request:
 
 permissions:
@@ -100,9 +98,7 @@ jobs:
       - name: Boot stack
         run: |
           cp .env.example .env
-
           sed -i 's/change_me_min_32_chars/testpassword12345678901234567890/g' .env
-
           docker compose up -d --wait --wait-timeout 120
 
       - name: Smoke test backend
@@ -133,15 +129,8 @@ jobs:
 
     env:
       ENVIRONMENT: development
-
-      # IMPORTANT:
-      # Anthropic embeddings do NOT exist.
-      # Use OpenAI instead.
-
       EMBEDDING_PROVIDER: openai
-
       OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-
       EVAL_F1_PASS_THRESHOLD: "0.80"
 
     steps:

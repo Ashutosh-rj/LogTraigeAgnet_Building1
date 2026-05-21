@@ -27,8 +27,9 @@ jobs:
 
       - name: Run Tests & Pytest
         run: |
-          pip install -r apps/backend/requirements.txt pytest
-          pytest apps/backend/tests/
+          cd apps/backend
+          pip install ".[dev]"
+          pytest
 
       - name: Log in to the Container registry
         uses: docker/login-action@v3

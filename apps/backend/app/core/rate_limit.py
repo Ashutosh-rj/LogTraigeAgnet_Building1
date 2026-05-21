@@ -86,6 +86,7 @@ class SharedRateLimiter:
         bucket.append(now)
         return True
 
+<<<<<<< HEAD
     async def check(self, key: str, limit: int, window_seconds: int) -> bool:
         """Return True if within limit, without incrementing the counter."""
         client = self._get_client()
@@ -107,6 +108,8 @@ class SharedRateLimiter:
         else:
             self._local.pop(key, None)
 
+=======
+>>>>>>> ec9ba626b100ff3057dcc621c518b6d3104f2818
     async def enforce(self, key: str, limit: int, window_seconds: int) -> None:
         """Raise HTTP 429 if the request exceeds the rate limit."""
         if not await self.hit(key, limit, window_seconds):

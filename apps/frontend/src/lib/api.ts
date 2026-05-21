@@ -51,6 +51,7 @@ async function request<T>(path: string, init: RequestInit = {}, retry = true): P
   }
   if (!response.ok) {
     const body = await response.json().catch(() => ({ detail: response.statusText }));
+<<<<<<< HEAD
     let errorMsg = "Request failed";
     if (typeof body.detail === "string") {
       errorMsg = body.detail;
@@ -58,6 +59,9 @@ async function request<T>(path: string, init: RequestInit = {}, retry = true): P
       errorMsg = body.detail.map((err: { msg: string }) => err.msg).join(", ");
     }
     throw new ApiError(errorMsg, response.status);
+=======
+    throw new ApiError(String(body.detail ?? "Request failed"), response.status);
+>>>>>>> ec9ba626b100ff3057dcc621c518b6d3104f2818
   }
   if (response.status === 204) {
     return undefined as T;

@@ -1,4 +1,5 @@
 global:
+<<<<<<< HEAD
   scrape_interval: 10s
   evaluation_interval: 10s
 
@@ -15,3 +16,18 @@ scrape_configs:
   - job_name: 'postgres'
     static_configs:
       - targets: ['postgres-exporter:9187']
+=======
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+scrape_configs:
+  - job_name: logiq-backend
+    metrics_path: /metrics
+    static_configs:
+      - targets: ["backend:8080"]
+
+  - job_name: prometheus
+    static_configs:
+      - targets: ["localhost:9090"]
+
+>>>>>>> ec9ba626b100ff3057dcc621c518b6d3104f2818

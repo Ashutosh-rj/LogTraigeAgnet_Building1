@@ -6,11 +6,15 @@ datasources:
     access: proxy
     url: http://prometheus:9090
     isDefault: true
+<<<<<<< HEAD
 
+=======
+>>>>>>> ec9ba626b100ff3057dcc621c518b6d3104f2818
   - name: Loki
     type: loki
     access: proxy
     url: http://loki:3100
+<<<<<<< HEAD
     jsonData:
       derivedFields:
         - name: TraceID
@@ -45,3 +49,6 @@ datasources:
         tags:
           - key: service.name
             value: job
+=======
+
+>>>>>>> ec9ba626b100ff3057dcc621c518b6d3104f2818

@@ -1,17 +1,22 @@
 from __future__ import annotations
 
 from fastapi import FastAPI
+<<<<<<< HEAD
 from opentelemetry import trace
 from opentelemetry.exporter.otlp.proto.grpc.trace_exporter import OTLPSpanExporter
 from opentelemetry.instrumentation.fastapi import FastAPIInstrumentor
 from opentelemetry.sdk.resources import Resource
 from opentelemetry.sdk.trace import TracerProvider
 from opentelemetry.sdk.trace.export import BatchSpanProcessor
+=======
+from opentelemetry.instrumentation.fastapi import FastAPIInstrumentor
+>>>>>>> ec9ba626b100ff3057dcc621c518b6d3104f2818
 
 from app.core.config import get_settings
 
 
 def configure_telemetry(app: FastAPI) -> None:
+<<<<<<< HEAD
     settings = get_settings()
     if settings.otel_exporter_otlp_endpoint:
         resource = Resource.create({"service.name": "logiq-backend", "environment": settings.environment})
@@ -28,3 +33,8 @@ def configure_telemetry(app: FastAPI) -> None:
 
 def get_tracer(name: str) -> trace.Tracer:
     return trace.get_tracer(name)
+=======
+    if get_settings().otel_exporter_otlp_endpoint:
+        FastAPIInstrumentor.instrument_app(app)
+
+>>>>>>> ec9ba626b100ff3057dcc621c518b6d3104f2818

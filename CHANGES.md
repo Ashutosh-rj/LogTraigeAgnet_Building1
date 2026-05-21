@@ -1,4 +1,33 @@
-## [Unreleased] — Critical Bug Fixes (2026-05-17)
+# Changelog
+
+All notable changes to the LogIQ Platform will be documented in this file.
+
+## [Unreleased] — Phase 15: Documentation & CI/CD (2026-05-21)
+
+### Added
+- **`ARCHITECTURE.md`**: Comprehensive architectural overview including Mermaid diagrams mapping the UI, FastAPI Backend, Kafka Event Broker, AI Agents, and Observability Stack.
+- **`README.md`** Overhauled to serve as a production-grade enterprise SaaS landing page detailing technology stack, quickstart, and deployment strategies.
+- **GitHub Actions**: Repaired broken CI and Production CI/CD workflows, resolving merge conflicts and adapting CI rules to `pyproject.toml` standards.
+
+## Phase 14: Security Hardening (2026-05-20)
+
+### Added
+- **Distributed Rate Limiting**: Added `RedisRateLimiter` to protect `/api/v1/auth/login` and other critical endpoints across distributed instances.
+- **Payload & Input Sanitization**: Added custom middlewares (`BodySizeLimitMiddleware`, `SearchSanitizationMiddleware`) to block DoS and SQLi attack vectors.
+- **JWT Secondary Secret Rotation**: Implemented secondary secret support in `core/security.py` for seamless zero-downtime key rotation.
+
+### Fixed
+- **Registration Form Validation**: Fixed bug where Pydantic 422 array errors resulted in `[object Object]` on the UI. The frontend now flattens and maps specific schema validations (e.g., password complexity requirements).
+
+## Phase 13: Observability Stack (2026-05-20)
+
+### Added
+- **OpenTelemetry Tracing**: Fully integrated `opentelemetry-instrumentation-fastapi` for end-to-end distributed tracing.
+- **Metrics Scraping**: Fixed `prometheus_client` exposition format headers (`CONTENT_TYPE_LATEST`) to comply with strict OpenMetrics specs, stopping metric drops in Prometheus.
+
+---
+
+## Critical Bug Fixes (2026-05-17)
 
 ### Fixed
 - **[CRIT-1] services/auth.py refresh()** — moved null check before expires_at access to prevent AttributeError on missing token row.

@@ -34,6 +34,7 @@ resources:
     limits:
       cpu: 500m
       memory: 512Mi
+<<<<<<< HEAD
 
 autoscaling:
   backend:
@@ -57,3 +58,5 @@ pdb:
     enabled: true
     minAvailable: 1
 
+=======
+>>>>>>> ec9ba626b100ff3057dcc621c518b6d3104f2818
